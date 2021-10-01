@@ -9,8 +9,6 @@ en:
       participatory_process:
         private_space: Private space
   decidim:
-    accessibility:
-      skip_button: Skip button
     admin:
       participatory_space_private_users:
         create:
@@ -52,6 +50,5 @@ en:
         sign_in: Sign in
         sign_up: Sign up
       user_menu:
-        account: Account
         conversations: Conversations
         notifications: Notifications

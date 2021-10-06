@@ -177,9 +177,9 @@ describe "Homepage", type: :system do
         context "when organization forces users to authenticate before access" do
           let(:organization) do
             create(
-              :organization,
-              official_url: official_url,
-              force_users_to_authenticate_before_access_organization: true
+                :organization,
+                official_url: official_url,
+                force_users_to_authenticate_before_access_organization: true
             )
           end
           let(:user) { nil }
@@ -187,20 +187,20 @@ describe "Homepage", type: :system do
           let!(:static_page_topic1) { create(:static_page_topic, organization: organization, show_in_footer: true) }
           let!(:static_page_topic1_page1) do
             create(
-              :static_page,
-              organization: organization,
-              topic: static_page_topic1,
-              weight: 0,
-              allow_public_access: false
+                :static_page,
+                organization: organization,
+                topic: static_page_topic1,
+                weight: 0,
+                allow_public_access: false
             )
           end
           let!(:static_page_topic1_page2) do
             create(
-              :static_page,
-              organization: organization,
-              topic: static_page_topic1,
-              weight: 1,
-              allow_public_access: true
+                :static_page,
+                organization: organization,
+                topic: static_page_topic1,
+                weight: 1,
+                allow_public_access: true
             )
           end
           let!(:static_page_topic2) { create(:static_page_topic, organization: organization, show_in_footer: true) }
@@ -226,9 +226,9 @@ describe "Homepage", type: :system do
               expect(page).to have_no_content(static_page_topic3.title["en"])
 
               expect(page).to have_link(
-                static_page_topic1.title["en"],
-                href: "/pages/#{static_page_topic1_page2.slug}"
-              )
+                                  static_page_topic1.title["en"],
+                                  href: "/pages/#{static_page_topic1_page2.slug}"
+                              )
             end
           end
 
@@ -244,13 +244,13 @@ describe "Homepage", type: :system do
               expect(page).to have_no_content(static_page_topic3.title["en"])
 
               expect(page).to have_link(
-                static_page_topic1.title["en"],
-                href: "/pages/#{static_page_topic1_page1.slug}"
-              )
+                                  static_page_topic1.title["en"],
+                                  href: "/pages/#{static_page_topic1_page1.slug}"
+                              )
               expect(page).to have_link(
-                static_page_topic2.title["en"],
-                href: "/pages/#{static_page_topic2_page1.slug}"
-              )
+                                  static_page_topic2.title["en"],
+                                  href: "/pages/#{static_page_topic2_page1.slug}"
+                              )
             end
           end
         end
@@ -260,12 +260,12 @@ describe "Homepage", type: :system do
         let!(:users) { create_list(:user, 4, :confirmed, organization: organization) }
         let!(:participatory_process) do
           create_list(
-            :participatory_process,
-            2,
-            :published,
-            organization: organization,
-            description: { en: "Description", ca: "Descripció", es: "Descripción" },
-            short_description: { en: "Short description", ca: "Descripció curta", es: "Descripción corta" }
+              :participatory_process,
+              2,
+              :published,
+              organization: organization,
+              description: { en: "Description", ca: "Descripció", es: "Descripción" },
+              short_description: { en: "Short description", ca: "Descripció curta", es: "Descripción corta" }
           )
         end
 
@@ -366,10 +366,10 @@ describe "Homepage", type: :system do
       describe "social links" do
         before do
           organization.update(
-            twitter_handler: "twitter_handler",
-            facebook_handler: "facebook_handler",
-            youtube_handler: "youtube_handler",
-            github_handler: "github_handler"
+              twitter_handler: "twitter_handler",
+              facebook_handler: "facebook_handler",
+              youtube_handler: "youtube_handler",
+              github_handler: "github_handler"
           )
 
           visit current_path
@@ -426,12 +426,14 @@ describe "Homepage", type: :system do
         end
 
         it "lets the users download open data files" do
-          click_link "Open data"
+          click_link "Download Open Data files"
           expect(File.basename(download_path)).to include("open-data.zip")
           Zip::File.open(download_path) do |zipfile|
             expect(zipfile.glob("*open-data-proposals.csv").length).to eq(1)
             expect(zipfile.glob("*open-data-results.csv").length).to eq(1)
             expect(zipfile.glob("*open-data-meetings.csv").length).to eq(1)
+            expect(zipfile.glob("*open-data-elections.csv").length).to eq(1)
+            expect(zipfile.glob("*open-data-votings.csv").length).to eq(1)
           end
         end
       end
